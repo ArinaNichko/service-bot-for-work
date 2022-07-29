@@ -23,7 +23,7 @@ async def start(message: types.Message, state: FSMContext):
     print('start')
     print(message.text)
     print(message.text[44:])
-    print(re.match(r'^/start test(\d*)_e(\d+)$', message.text[33:]).groups())
+    #print(re.match(r'^/start test(\d*)_e(\d+)$', message.text[33:]).groups())
     if len(message.text) > 7:
         #await ChatMode.event.set()
         await ChatMode.ChatId.set()
