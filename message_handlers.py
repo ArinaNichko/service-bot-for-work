@@ -20,7 +20,9 @@ async def start(message: types.Message, state: FSMContext):
     exit_but = types.KeyboardButton("Вийти з чату")
     discuss_salary = types.KeyboardButton("Підтвердити ціну")
     markup.add(exit_but, discuss_salary)
+    print('start')
     print(message.text)
+    print(message.text[33:])
     if len(message.text) > 7:
         await ChatMode.event.set()
         await ChatMode.ChatId.set()
