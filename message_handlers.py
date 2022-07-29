@@ -25,7 +25,8 @@ async def start(message: types.Message, state: FSMContext):
         await ChatMode.event.set()
         await ChatMode.ChatId.set()
         print(message.text)
-        chat_id, event_id = re.match(r'^/start test(\d*)_e(\d+)$', message.text).groups()
+        b = message.text[33:]
+        chat_id, event_id = re.match(r'^start=test(\d*)_e(\d+)$', b).groups()
         print(chat_id)
         print(event_id)
         event = Event.get(event_id)
