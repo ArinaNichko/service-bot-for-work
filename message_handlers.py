@@ -22,10 +22,10 @@ async def start(message: types.Message, state: FSMContext):
     markup.add(exit_but, discuss_salary)
     print('start')
     print(message.text)
-    print(message.text[33:])
-    print(re.match(r'^/start test(\d*)_e(\d+)$', message.text[33:]).groups())
+    print(message.text[44:])
+    #print(re.match(r'^/start test(\d*)_e(\d+)$', message.text[33:]).groups())
     if len(message.text) > 7:
-        await ChatMode.event.set()
+        #await ChatMode.event.set()
         await ChatMode.ChatId.set()
         print(message.text)
         b = message.text[33:]
@@ -33,17 +33,17 @@ async def start(message: types.Message, state: FSMContext):
         chat_id, event_id = re.match(r'^/start test(\d*)_e(\d+)$', b).groups()
         #print(chat_id)
         print(event_id)
-        event = Event.get(event_id)
+        event = Event.get(2)
         await message.answer(
             f"Ласкаво просимо, {message.from_user.first_name}"
             f" {message.from_user.last_name}!"
         )
 
-        #await service_bot.send_message(
-         #   message.from_user.id,
-         #   f'Ви відгункнулися на цей пост: \n{event.name}'
-         #   f'\n{event.description}' f'\nЗарплата: {event.salary}'
-        #)
+        await service_bot.send_message(
+            message.from_user.id,
+            f'Ви відгункнулися на цей пост: \n{event.name}'
+            f'\n{event.description}' f'\nЗарплата: {event.salary}'
+        )
         await message.answer(
             'Війшли в режим чату, напишіть ваше повідомлення',
             reply_markup=markup
