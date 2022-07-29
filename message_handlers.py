@@ -44,6 +44,11 @@ async def start(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['ChatId'] = chat_id
             data['event'] = event_id
+    else:
+        await message.answer(
+            f"Ласкаво просимо, {message.from_user.first_name}"
+            f" {message.from_user.last_name}!"
+        )
 
 
 
