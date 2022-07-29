@@ -28,8 +28,9 @@ async def start(message: types.Message, state: FSMContext):
         await ChatMode.ChatId.set()
         print(message.text)
         b = message.text[33:]
+        print(re.match(r'^start=test(\d*)_e(\d+)$', b).groups())
         chat_id, event_id = re.match(r'^start=test(\d*)_e(\d+)$', b).groups()
-        print(chat_id)
+        #print(chat_id)
         print(event_id)
         event = Event.get(event_id)
         await message.answer(
@@ -37,11 +38,11 @@ async def start(message: types.Message, state: FSMContext):
             f" {message.from_user.last_name}!"
         )
 
-        await service_bot.send_message(
-            message.from_user.id,
-            f'Ви відгункнулися на цей пост: \n{event.name}'
-            f'\n{event.description}' f'\nЗарплата: {event.salary}'
-        )
+        #await service_bot.send_message(
+         #   message.from_user.id,
+         #   f'Ви відгункнулися на цей пост: \n{event.name}'
+         #   f'\n{event.description}' f'\nЗарплата: {event.salary}'
+        #)
         await message.answer(
             'Війшли в режим чату, напишіть ваше повідомлення',
             reply_markup=markup
