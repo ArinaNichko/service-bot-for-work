@@ -8,7 +8,7 @@ from aiogram.utils.executor import start_webhook
 from service_bot import states
 
 from service_bot.states import ChatMode
-from service_bot.config import service_bot, dp, client_bot, WEBHOOK_URL, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT
+from config import service_bot, dp, client_bot, WEBHOOK_URL, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT
 from service_bot.models import Event
 
 
@@ -123,6 +123,7 @@ async def on_shutdown(dp):
     logging.warning('Bye!')
 
 print(WEBHOOK_PATH)
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     start_webhook(
