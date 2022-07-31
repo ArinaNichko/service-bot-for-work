@@ -1,18 +1,14 @@
 import logging
 import re
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 from aiogram.utils.executor import start_webhook
 from service_bot import states
-
 from service_bot.states import ChatMode
 from config import service_bot, dp, client_bot, WEBHOOK_URL, WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT
-from service_bot.models import Event
 
 
-admin = '@arrriinak'
 
 @dp.message_handler(commands=["start"])
 async def start(message: types.Message, state: FSMContext):
@@ -20,29 +16,14 @@ async def start(message: types.Message, state: FSMContext):
     exit_but = types.KeyboardButton("Вийти з чату")
     discuss_salary = types.KeyboardButton("Підтвердити ціну")
     markup.add(exit_but, discuss_salary)
-    print('start')
-    print(message.text)
-    print(message.text[44:])
     if len(message.text) > 7:
-        #await ChatMode.event.set()
+        await ChatMode.event.set()
         await ChatMode.ChatId.set()
-        print(message.text)
-        b = message.text[33:]
-        print(re.match(r'^/start test(\d*)_e(\d+)$', message.text).groups())
         chat_id, event_id = re.match(r'^/start test(\d*)_e(\d+)$', message.text).groups()
-        print(chat_id)
-        print(event_id)
-        #event = Event.get(event_id)
         await message.answer(
             f"Ласкаво просимо, {message.from_user.first_name}"
             f" {message.from_user.last_name}!"
         )
-
-        #await service_bot.send_message(
-        #    message.from_user.id,
-         #   f'Ви відгункнулися на цей пост: \n{event.name}'
-          #  f'\n{event.description}' f'\nЗарплата: {event.salary}'
-        #)
         await message.answer(
             'Війшли в режим чату, напишіть ваше повідомлення',
             reply_markup=markup
@@ -95,7 +76,6 @@ async def price_state(message: types.Message, state: FSMContext):
     markup = InlineKeyboardMarkup()
     user = message.from_user.username
     yes_button = InlineKeyboardButton('Так', callback_data=f'yes_price{user}_e{price}_i{event_id}')
-    #no_button = InlineKeyboardButton('Ні', callback_data=f'no_user_id{message.from_user.id}')
     markup.add(yes_button)
     await states.ChatMode.ChatId.set()
     return await client_bot.send_message(
@@ -109,21 +89,14 @@ async def price_state(message: types.Message, state: FSMContext):
 
 async def on_startup(dp):
     await service_bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
-    # insert code here to run it after start
+
 
 
 async def on_shutdown(dp):
     logging.warning('Shutting down..')
-
-    # insert code here to run it before shutdown
-
-    # Remove webhook (not acceptable in some cases)
     await service_bot.delete_webhook()
-
-    # Close DB connection (if used)
     await dp.storage.close()
     await dp.storage.wait_closed()
-
     logging.warning('Bye!')
 
 print(WEBHOOK_PATH)
