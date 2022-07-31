@@ -32,7 +32,7 @@ async def start(message: types.Message, state: FSMContext):
         chat_id, event_id = re.match(r'^/start test(\d*)_e(\d+)$', message.text).groups()
         print(chat_id)
         print(event_id)
-        event = Event.get(2)
+        event = Event.get(event_id)
         await message.answer(
             f"Ласкаво просимо, {message.from_user.first_name}"
             f" {message.from_user.last_name}!"
